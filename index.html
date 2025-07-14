@@ -1,32 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task List</title>
-    <link rel="stylesheet" src ="style.css"></link>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tu Du Dashboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">Hi Kraneel,</div>
-        <div class="task-list">
-            <div class="task-list-title">Upcoming tasks:</div>
-            <button class="task-input">Add new</button>
-        </div>
-
-        <div id="left_side">
-            <h1>Tu du</h1>
-            <input type="text" placeholder="Search">
-
-            <div id="dashboard">
-
+    <div class="sidebar">
+        <div>
+            <h1> Tu Du</h1>
+            <div class="search">
+                <input type="text" placeholder="Search" />
+                🔍
             </div>
-            <div id="tasks">Tasks</div>
-            <div id="imp_tasks">Important Tasks</div>
-            <div id="calendar">Calendar</div>
-            <div id="team">Team</div>
-            <div id="settings">Settings</div>
-            <div id="Help">Help</div>
+            <div class="menu">
+                <a href="#"> Dashboard</a>
+                <a href="#"> Tasks</a>
+                <a href="#"> Important tasks</a>
+                <a href="#"> Calendar</a>
+                <a href="#"> Team</a>
+                <a href="#"> Settings</a>
+                <a href="#"> Help</a>
+            </div>
+        </div>
+        <div class="logout">
+            Log out 
+        </div>
+    </div>
+    <div class="main">
+        <div class="header">
+            <div>
+                <strong>Kraneel Manandhar</strong><br />
+                kmanandhar@gmail.com
+            </div>
+            <img src="https://via.placeholder.com/40" alt="Profile" />
+        </div>
+        <h2>Hi Kraneel,</h2>
+        <h3>Upcoming tasks:</h3>
+        <button class="add-button">Add new</button>
+        <div class="task-container">
+            <div class="task-card">
+                <div class="dots">⋯</div>
+                <p>Task description here</p>
+                <button>Keep</button>
+                <button>Delete</button>
+            </div>
         </div>
     </div>
 </body>
