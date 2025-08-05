@@ -27,6 +27,9 @@ app.get("/", (req, res) => {
 
 app.use("/static", express.static(path.join(__dirname, "../frontend")));
 app.use("/api/tasks",TaskRoute);
+app.use((req,res)=>{
+  res.status(401).json({message:'invaid route'})
+})
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
