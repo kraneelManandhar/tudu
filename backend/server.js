@@ -1,10 +1,10 @@
 const express = require("express");
 const path = require("path");
 const app = express();
-const port = 5000;
 const mongoose = require('mongoose')
 
 require('dotenv').config();
+const port = process.env.port;
 const TaskRoute = require('./Routes/TaskRoute');
 
 app.use(express.json());
