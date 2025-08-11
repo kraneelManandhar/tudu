@@ -19,7 +19,7 @@ exports.getTaskById = async(req,res) => {
 
 exports.updateTask =  async(req,res) => {
     const Id = req.params.id;
-    const update = await req.findByIdandUpdate(Id,req.body);
+    const update = await req.findByIdAndUpdate(Id,req.body);
     res.json(update);
 }
 
