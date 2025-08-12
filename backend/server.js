@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 require('dotenv').config();
 const port = process.env.port;
 const TaskRoute = require('./Routes/TaskRoute');
+const categoryRouter = require('./Routes/categoryRouter')
 
 app.use(express.json());
 
@@ -26,7 +27,11 @@ app.get("/", (req, res) => {
 });
 
 app.use("/static", express.static(path.join(__dirname, "../frontend")));
+
 app.use("/api/tasks",TaskRoute);
+
+app.use("api/tasks/cat",categoryRouter);
+
 app.use((req,res)=>{
   res.status(401).json({message:'invaid route'})
 })
