@@ -1,52 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tu Du Dashboard</title>
-    <link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tu Du Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="sidebar">
-        <div>
-            <h1> Tu Du</h1>
-            <div class="search">
-                <input type="text" placeholder="Search" />
-                🔍
-            </div>
-            <div class="menu">
-                <a href="#"> Dashboard</a>
-                <a href="#"> Tasks</a>
-                <a href="#"> Important tasks</a>
-                <a href="#"> Calendar</a>
-                <a href="#"> Team</a>
-                <a href="#"> Settings</a>
-                <a href="#"> Help</a>
-            </div>
-        </div>
-        <div class="logout" onclick="location.assign('http://localhost:3000/logout')">
-            Log out 
-        </div>
+  <div class="sidebar">
+    <div>
+      <h1>Tu Du</h1>
+      <div class="search">
+        <input type="text" placeholder="Search" />
+        
+      </div>
+      <div class="menu">
+        <a href="#"> Dashboard</a>
+        <a href="#"> Tasks</a>
+        <a href="#"> Important tasks</a>
+        <a href="#"> Calendar</a>
+        <a href="#"> Team</a>
+        <a href="#"> Settings</a>
+        <a href="#"> Help</a>
+      </div>
     </div>
-    <div class="main">
-        <div class="header">
-            <div>
-                <strong>Kraneel Manandhar</strong><br />
-                kmanandhar@gmail.com
-            </div>
-            <img src="https://via.placeholder.com/40" alt="Profile" />
-        </div>
-        <h2>Hi Kraneel,</h2>
-        <h3>Upcoming tasks:</h3>
-        <button class="add-button">Add new</button>
-        <div class="task-container">
-            <div class="task-card">
-                <div class="dots">⋯</div>
-                <p>Task description here</p>
-                <button>Keep</button>
-                <button>Delete</button>
-            </div>
-        </div>
+    <div class="logout" onclick="logout()">
+      Log out 
     </div>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <div>
+        <strong>Kraneel Manandhar</strong><br />
+        kmanandhar@gmail.com
+      </div>
+      <img id="profileImg" src="" alt="Profile" width="40" height="40" style="border-radius:50%;" />
+    </div>
+
+    <h2>Hi Kraneel,</h2>
+    <h3>Upcoming tasks:</h3>
+    <button class="add-button" onclick="openTaskForm()">Add new</button>
+
+    <div class="task-container" id="taskContainer">
+      <!-- tasks load here -->
+    </div>
+  </div>
+
+  <!-- Task Form Modal -->
+  <div id="taskFormModal" class="modal">
+    <div class="modal-content">
+      <h3 id="formTitle">Add Task</h3>
+      <input id="taskTitle" type="text" placeholder="Task title"/>
+      <textarea id="taskDescription" placeholder="Task description"></textarea>
+      <div class="modal-actions">
+        <button onclick="saveTask()">Save</button>
+        <button onclick="closeTaskForm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/script.js"></script>
 </body>
 </html>
