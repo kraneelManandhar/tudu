@@ -30,7 +30,7 @@ app.use("/static", express.static(path.join(__dirname, "../frontend")));
 
 app.use("/api/tasks",TaskRoute);
 
-app.use("api/tasks/cat",categoryRouter);
+app.use("/api/tasks/cat",categoryRouter);
 
 app.use((req,res)=>{
   res.status(401).json({message:'invaid route'})
