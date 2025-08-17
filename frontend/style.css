@@ -1,107 +1,188 @@
+/* General Layout */
 body {
   margin: 0;
-  font-family: sans-serif;
-  background-color: #aaf0ff;
+  font-family: Arial, sans-serif;
   display: flex;
   height: 100vh;
 }
+
+/* Sidebar */
 .sidebar {
-  width: 250px;
-  background-color: #5fe3ff;
-  border-right: 2px solid #0084ff;
+  width: 220px;
+  background: #1d1d35; /* dark blue-ish from original */
+  color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
 }
+
 .sidebar h1 {
+  margin: 0 0 20px;
   font-size: 24px;
-  margin-top: 0;
+}
+
+.sidebar .search {
   display: flex;
   align-items: center;
-  gap: 10px;
+  margin-bottom: 20px;
 }
-.search {
-  margin: 20px 0;
-  display: flex;
-  align-items: center;
-}
-.search input {
+
+.sidebar input {
   flex: 1;
-  padding: 8px;
-  border-radius: 20px;
+  padding: 6px;
+  border-radius: 5px;
   border: none;
   outline: none;
 }
-.menu a {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
+
+.sidebar .menu a {
+  display: block;
+  margin: 12px 0;
+  color: #cbd5e1; /* light text like original */
   text-decoration: none;
-  color: purple;
-  border-radius: 10px;
-  transition: background 0.3s;
 }
-.menu a:hover {
-  background-color: #aaf0ff;
+
+.sidebar .menu a:hover {
+  color: #fff;
 }
-.logout {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+
+.sidebar .logout {
   cursor: pointer;
-  color: #333;
+  background: #60a5fa; /* light blue logout like original */
+  padding: 10px;
+  text-align: center;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.3s;
 }
+
+.sidebar .logout:hover {
+  background: #3b82f6; /* slightly darker blue on hover */
+}
+
+/* Main content */
 .main {
   flex: 1;
-  padding: 40px;
-  position: relative;
+  padding: 25px;
+  background: #f0f4f8; /* light background like your HTML */
+  overflow-y: auto;
 }
+
 .header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  margin-bottom: 25px;
 }
-.header img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
+
+/* Buttons */
 .add-button {
-  position: absolute;
-  top: 100px;
-  right: 50px;
-  background-color: #91e0ff;
+  background: #60a5fa; /* light blue like your "Add new" button */
+  color: #fff;
+  padding: 10px 15px;
   border: none;
-  padding: 15px 30px;
-  border-radius: 15px;
-  font-size: 20px;
-  color: #4c6fff;
+  margin-bottom: 20px;
   cursor: pointer;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.3s;
 }
+
+.add-button:hover {
+  background: #3b82f6; /* darker blue on hover */
+}
+
+/* Task Cards */
 .task-container {
-  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
 }
+
 .task-card {
-  background-color: #5fe3ff;
-  padding: 20px;
-  border-radius: 30px;
-  width: 300px;
-  position: relative;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  width: 220px;
 }
+
+.task-card p {
+  margin: 5px 0;
+}
+
 .task-card button {
+  margin-top: 10px;
+  margin-right: 6px;
+  padding: 6px 10px;
   border: none;
-  padding: 8px 15px;
-  border-radius: 15px;
-  margin: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  background-color: #aaf0ff;
+  font-size: 13px;
 }
-.task-card .dots {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+
+.task-card button:first-of-type {
+  background: #34d399; /* green edit button */
+  color: #fff;
+}
+
+.task-card button:last-of-type {
+  background: #f87171; /* red delete button */
+  color: #fff;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 320px;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-actions button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  font-weight: bold;
+}
+
+.modal-actions button:first-of-type {
+  background: #60a5fa; /* save button = light blue */
+  color: #fff;
+}
+
+.modal-actions button:last-of-type {
+  background: #e5e7eb; /* cancel = light gray */
+  color: #333;
 }
