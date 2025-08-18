@@ -7,7 +7,7 @@ require('dotenv').config();
 const port = process.env.port;
 const TaskRoute = require('./Routes/TaskRoute');
 const categoryRouter = require('./Routes/categoryRouter')
-import userRegisterRoute from "./Routes/userRegisterRoute"
+const userRegisterRoute =  require("./Routes/userRegisterRoute");
 
 
 app.use(express.json());
