@@ -15,6 +15,11 @@ const TaskSchema = new mongoose.Schema({
     enum: ['pending', 'completed'],
     default: 'pending'
   },
+  category: {
+    type: String,
+    enum: ['important', 'very important', 'not so important'],
+    default: 'not so important'
+  },
   dueDate: {
     type: Date
   },

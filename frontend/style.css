@@ -1,213 +1,26 @@
-/* General Layout */
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
-  display: flex;
-  height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  width: 220px;
-  background: #1d1d35; /* dark blue-ish from original */
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  max-width: 700px;
+  margin: 20px auto;
   padding: 20px;
+  background: #f9f9f9;
 }
-
-.sidebar h1 {
-  margin: 0 0 20px;
-  font-size: 24px;
-}
-
-.sidebar .search {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.sidebar input {
-  flex: 1;
-  padding: 6px;
-  border-radius: 5px;
-  border: none;
-  outline: none;
-}
-
-.sidebar .menu a {
-  display: block;
-  margin: 12px 0;
-  color: #cbd5e1; /* light text like original */
-  text-decoration: none;
-}
-
-.sidebar .menu a:hover {
-  color: #fff;
-}
-
-.sidebar .logout {
-  cursor: pointer;
-  background: #60a5fa; /* light blue logout like original */
-  padding: 10px;
-  text-align: center;
-  border-radius: 6px;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.sidebar .logout:hover {
-  background: #3b82f6; /* slightly darker blue on hover */
-}
-
-/* Main content */
-.main {
-  flex: 1;
-  padding: 25px;
-  background: #f0f4f8; /* light background like your HTML */
-  overflow-y: auto;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-/* Buttons */
-.add-button {
-  background: #60a5fa; /* light blue like your "Add new" button */
-  color: #fff;
-  padding: 10px 15px;
-  border: none;
-  margin-bottom: 20px;
-  cursor: pointer;
-  border-radius: 6px;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.add-button:hover {
-  background: #3b82f6; /* darker blue on hover */
-}
-
-/* Task Cards */
-.task-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.task-card {
-  background: #fff;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  width: 220px;
-}
-
-.task-card p {
-  margin: 5px 0;
-}
-
-.task-card button {
-  margin-top: 10px;
-  margin-right: 6px;
+h1 { text-align: center; }
+section { margin-bottom: 20px; }
+form { margin: 10px 0; display: flex; flex-wrap: wrap; gap: 8px; }
+input, select, button {
   padding: 6px 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.task-card button:first-of-type {
-  background: #34d399; /* green edit button */
-  color: #fff;
-}
-
-.task-card button:last-of-type {
-  background: #f87171; /* red delete button */
-  color: #fff;
-}
-
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.4);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  width: 320px;
-}
-
-.modal-content h3 {
-  margin-top: 0;
-  margin-bottom: 15px;
-}
-
-.modal-content input,
-.modal-content textarea {
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: space-between;
-}
-
-.modal-actions button {
-  padding: 8px 12px;
-  border: none;
+  border: 1px solid #bbb;
   border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
 }
-
-.modal-actions button:first-of-type {
-  background: #60a5fa; /* save button = light blue */
-  color: #fff;
+button {
+  background: #007BFF; color: white; border: none; cursor: pointer;
 }
-
-.modal-actions button:last-of-type {
-  background: #e5e7eb; /* cancel = light gray */
-  color: #333;
+button:hover { background: #0056b3; }
+ul { list-style: none; padding: 0; }
+li {
+  background: #fff; margin: 5px 0; padding: 8px;
+  border-radius: 5px; display: flex; justify-content: space-between;
+  flex-direction: column;
 }
-
-/* Add to existing styles */
-
-.category-tag {
-    display: inline-block;
-    padding: 2px 8px;
-    background: #60a5fa;
-    color: white;
-    border-radius: 12px;
-    font-size: 12px;
-    margin: 5px 0;
-}
-
-.category-option {
-    margin: 8px 0;
-}
-
-.category-option input {
-    width: auto;
-    margin-right: 8px;
-}
-
-.category-option label {
-    cursor: pointer;
-}
+li div { margin-bottom: 6px; }

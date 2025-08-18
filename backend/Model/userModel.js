@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
 const UserSchema = new schema(
@@ -12,11 +12,7 @@ const UserSchema = new schema(
     emailToken: { type: String },
     isEmailVerified: { type: Boolean, default: false },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-const userModel = mongoose.model("User", UserSchema);
-
-export default userModel;
+module.exports = mongoose.model("User", UserSchema);

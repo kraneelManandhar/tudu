@@ -1,12 +1,11 @@
 const express = require("express");
+const { validateCredentials } = require("../Controller/userLoginController");
+const verifyToken = require("../middlewares/auth");
+
 const userLoginRouter = express.Router();
-const userLoginController = require("../Controller/userLoginController.js");
-const verifyToken = require("../middlewares/auth.js");
 
 userLoginRouter
-
-  //Validate Password
-  .post("/validateCredentials", userLoginController.validateCredentials)
+  .post("/validateCredentials", validateCredentials)
   .get("/validateCredentials", (req, res) => {
     res.status(405).json({ success: false, message: "Method not Allowed!!" });
   })
@@ -15,19 +14,9 @@ userLoginRouter
   })
   .delete("/validateCredentials", (req, res) => {
     res.status(405).json({ success: false, message: "Method not Allowed!!" });
-  })
-
-  //Verify JWT
-  .post("/", verifyToken)
-
-  .get("/", (req, res) => {
-    res.status(405).json({ success: false, message: "Method not Allowed!!" });
-  })
-  .put("/", (req, res) => {
-    res.status(405).json({ success: false, message: "Method not Allowed!!" });
-  })
-  .delete("/", (req, res) => {
-    res.status(405).json({ success: false, message: "Method not Allowed!!" });
   });
+
+// Verify JWT
+userLoginRouter.post("/", verifyToken);
 
 module.exports = userLoginRouter;

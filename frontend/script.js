@@ -1,196 +1,131 @@
-const API_BASE_URL = "http://localhost:5000/api";
-const TASK_API = `${API_BASE_URL}/tasks`;
-const CATEGORY_API = `${API_BASE_URL}/tasks/cat`;
+const API = "http://localhost:5000/api";
+const token = () => localStorage.getItem("token");
+const headers = { "Content-Type": "application/json" };
 
-let editingTaskId = null;
-let categories = [];
+// ==========================
+// AUTH
+// ==========================
+document.getElementById("registerForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const body = {
+    username: regUsername.value,
+    email: regEmail.value,
+    password: regPassword.value,
+    firstName: firstName.value,
+    lastName: lastName.value
+  };
+  const res = await fetch(`${API}/auth/register/register`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body)
+  });
+  const data = await res.json();
+  alert(data.message || "Registered!");
+});
 
-// Initialize profile
-localStorage.setItem('profilePic', 'https://www.shutterstock.com/shutterstock/photos/2286554497/display_1500/stock-photo-random-pictures-cute-and-funny-2286554497.jpg');
-localStorage.setItem('username', 'Kraneel Manandhar');
+document.getElementById("loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const body = {
+    username: loginUsername.value,
+    password: loginPassword.value
+  };
+  const res = await fetch(`${API}/auth/login/validateCredentials`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body)
+  });
+  const data = await res.json();
+  console.log("Login response:", data); // Debug log
 
-document.getElementById('profileImg').src = localStorage.getItem('profilePic') || 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg';
+  if (res.ok && data.result?.accessToken) {
+    localStorage.setItem("token", data.result.accessToken);
+    localStorage.setItem("username", data.result.username);
+    alert("Logged in!");
+    loadTasks();
+  } else {
+    alert(data.message || "Login failed");
+  }
+});
 
-// Load tasks and categories on page load
-async function initialize() {
-    await loadCategories();
-    await loadTasks();
-}
+document.getElementById("verifyBtn").addEventListener("click", async () => {
+  const res = await fetch(`${API}/auth/login/`, {
+    method: "POST",
+    headers: { ...headers, "access-token": token() },
+    body: JSON.stringify({ username: localStorage.getItem("username") })
+  });
+  const data = await res.json();
+  alert(data.message || (res.ok ? "Token OK" : "Token invalid"));
+});
 
-// Load tasks
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("username");
+  alert("Logged out");
+});
+
+// ==========================
+// TASKS
+// ==========================
+document.getElementById("taskForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const body = {
+    title: taskTitle.value,
+    description: taskDescription.value,
+    category: taskCategory.value
+  };
+  await fetch(`${API}/tasks/create`, {
+    method: "POST",
+    headers: { ...headers, "access-token": token() },
+    body: JSON.stringify(body)
+  });
+  loadTasks();
+});
+
 async function loadTasks() {
-    try {
-        const res = await fetch(TASK_API);
-        const tasks = await res.json();
-
-        const container = document.getElementById("taskContainer");
-        container.innerHTML = "";
-
-        tasks.forEach(task => {
-            const card = document.createElement("div");
-            card.classList.add("task-card");
-
-            // Get category for this task if it exists
-            const taskCategory = categories.find(cat => cat.tasks && cat.tasks._id === task._id);
-            
-            card.innerHTML = `
-                <p><strong>${task.title || "Untitled"}</strong></p>
-                <p>${task.description || ""}</p>
-                ${taskCategory ? `<p class="category-tag">${taskCategory.category}</p>` : ''}
-                <button onclick="openTaskForm('${task._id}', '${task.title}', '${task.description}')">Edit</button>
-                <button onclick="deleteTask('${task._id}')">Delete</button>
-            `;
-
-            container.appendChild(card);
-        });
-    } catch (err) {
-        console.error("Error loading tasks", err);
-    }
+  const res = await fetch(`${API}/tasks`);
+  const tasks = await res.json();
+  const ul = document.getElementById("taskList");
+  ul.innerHTML = "";
+  tasks.forEach(t => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <div>
+        <strong>ID:</strong> ${t._id} <br>
+        <strong>Title:</strong> ${t.title} <br>
+        <strong>Description:</strong> ${t.description || "—"} <br>
+        <strong>Status:</strong> ${t.status} <br>
+        <strong>Category:</strong> ${t.category || "—"}
+      </div>
+      <span>
+        <button onclick="updateTask('${t._id}')">Edit</button>
+        <button onclick="deleteTask('${t._id}')">Delete</button>
+      </span>`;
+    ul.appendChild(li);
+  });
 }
 
-// Load categories
-async function loadCategories() {
-    try {
-        const res = await fetch(CATEGORY_API);
-        categories = await res.json();
-    } catch (err) {
-        console.error("Error loading categories", err);
-    }
+async function updateTask(id) {
+  const newTitle = prompt("New title:");
+  if (!newTitle) return;
+  await fetch(`${API}/tasks/${id}`, {
+    method: "PUT",
+    headers: { ...headers, "access-token": token() },
+    body: JSON.stringify({ title: newTitle })
+  });
+  loadTasks();
 }
 
-function openTaskForm(id = null, title = "", description = "") {
-    editingTaskId = id;
-    document.getElementById("formTitle").textContent = id ? "Edit Task" : "Add Task";
-    document.getElementById("taskTitle").value = title;
-    document.getElementById("taskDescription").value = description;
-    
-    // Add category checkboxes to the form
-    const categoryContainer = document.getElementById("categoryContainer");
-    categoryContainer.innerHTML = '<h4>Categories</h4>';
-    
-    ['important', 'very important', 'not so important'].forEach(category => {
-        const div = document.createElement('div');
-        div.className = 'category-option';
-        
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = `category-${category.replace(/\s+/g, '-')}`;
-        checkbox.value = category;
-        
-        const label = document.createElement('label');
-        label.htmlFor = checkbox.id;
-        label.textContent = category;
-        
-        div.appendChild(checkbox);
-        div.appendChild(label);
-        categoryContainer.appendChild(div);
-    });
-    
-    document.getElementById("taskFormModal").style.display = "flex";
-}
-
-// Close modal
-function closeTaskForm() {
-    document.getElementById("taskFormModal").style.display = "none";
-    editingTaskId = null;
-}
-
-// Save task
-async function saveTask() {
-    const title = document.getElementById("taskTitle").value;
-    const description = document.getElementById("taskDescription").value;
-    const selectedCategory = document.querySelector('input[type="checkbox"]:checked')?.value;
-
-    if (!title.trim()) {
-        alert("Task title is required!");
-        return;
-    }
-
-    try {
-        if (editingTaskId) {
-            // Update task
-            await fetch(`${TASK_API}/${editingTaskId}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ title, description })
-            });
-
-            // Update category if selected
-            if (selectedCategory) {
-                await updateTaskCategory(editingTaskId, selectedCategory);
-            }
-        } else {
-            // Create new task
-            const res = await fetch(TASK_API + "/create", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ title, description })
-            });
-            const newTask = await res.json();
-
-            // Add category if selected
-            if (selectedCategory) {
-                await updateTaskCategory(newTask._id, selectedCategory);
-            }
-        }
-        closeTaskForm();
-        await loadTasks();
-    } catch (err) {
-        console.error("Error saving task", err);
-    }
-}
-
-// Update or create category for task
-async function updateTaskCategory(taskId, category) {
-    try {
-        // First check if this task already has a category
-        const existingCategory = categories.find(cat => cat.tasks && cat.tasks._id === taskId);
-        
-        if (existingCategory) {
-            // Update existing category
-            await fetch(`${CATEGORY_API}/update/${existingCategory._id}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ category, tasks: taskId })
-            });
-        } else {
-            // Create new category
-            await fetch(`${CATEGORY_API}/create`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ category, tasks: taskId })
-            });
-        }
-        
-        // Reload categories
-        await loadCategories();
-    } catch (err) {
-        console.error("Error updating task category", err);
-    }
-}
-
-// Delete task
 async function deleteTask(id) {
-    if (!confirm("Delete this task?")) return;
-    try {
-        await fetch(`${TASK_API}/${id}`, { method: "DELETE" });
-        
-        // Also delete any associated category
-        const category = categories.find(cat => cat.tasks && cat.tasks._id === id);
-        if (category) {
-            await fetch(`${CATEGORY_API}/delete/${category._id}`, { method: "DELETE" });
-        }
-        
-        await loadTasks();
-    } catch (err) {
-        console.error("Error deleting task", err);
-    }
+  await fetch(`${API}/tasks/${id}`, {
+    method: "DELETE",
+    headers: { "access-token": token() }
+  });
+  loadTasks();
 }
 
-async function logout() {
-    localStorage.removeItem('profilePic');
-    localStorage.removeItem('username');
-    document.getElementById('profileImg').src = localStorage.getItem('profilePic') || 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg';
+// ==========================
+// INIT
+// ==========================
+if (token()) {
+  loadTasks();
 }
-
-window.onload = initialize;
