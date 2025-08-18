@@ -1,12 +1,12 @@
-import express from "express";
+const express = require("express");
 const userLoginRouter = express.Router();
-import { validateCredentials } from "../controllers/userLoginController.js";
-import { verifyToken } from "../middlewares/auth.js";
+const userLoginController = require("../Controller/userLoginController.js");
+const verifyToken = require("../middlewares/auth.js");
 
 userLoginRouter
 
   //Validate Password
-  .post("/validateCredentials", validateCredentials)
+  .post("/validateCredentials", userLoginController.validateCredentials)
   .get("/validateCredentials", (req, res) => {
     res.status(405).json({ success: false, message: "Method not Allowed!!" });
   })
@@ -30,4 +30,4 @@ userLoginRouter
     res.status(405).json({ success: false, message: "Method not Allowed!!" });
   });
 
-export default userLoginRouter;
+module.exports = userLoginRouter;

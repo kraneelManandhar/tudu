@@ -186,3 +186,28 @@ body {
   background: #e5e7eb; /* cancel = light gray */
   color: #333;
 }
+
+/* Add to existing styles */
+
+.category-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #60a5fa;
+    color: white;
+    border-radius: 12px;
+    font-size: 12px;
+    margin: 5px 0;
+}
+
+.category-option {
+    margin: 8px 0;
+}
+
+.category-option input {
+    width: auto;
+    margin-right: 8px;
+}
+
+.category-option label {
+    cursor: pointer;
+}

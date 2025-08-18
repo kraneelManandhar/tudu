@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
-import User from "../Model/userModel.js";
+const jwt = require("jsonwebtoken");
+const User = require("../Model/userModel.js");
 
 const TOKEN_KEY = process.env.JWT_KEY || 1234567890;
 
@@ -29,4 +29,4 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-export { verifyToken };
+module.exports = verifyToken;

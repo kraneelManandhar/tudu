@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 require('dotenv').config();
 
 const ConnectDB = () => {
@@ -14,4 +14,4 @@ const ConnectDB = () => {
     });
 };
 
-export default ConnectDB;
+module.exports = ConnectDB;
