@@ -2,9 +2,6 @@ const API = "http://localhost:5000/api";
 const token = () => localStorage.getItem("token");
 const headers = { "Content-Type": "application/json" };
 
-// ==========================
-// AUTH
-// ==========================
 document.getElementById("registerForm").addEventListener("submit", async e => {
   e.preventDefault();
   const body = {
@@ -35,7 +32,7 @@ document.getElementById("loginForm").addEventListener("submit", async e => {
     body: JSON.stringify(body)
   });
   const data = await res.json();
-  console.log("Login response:", data); // Debug log
+  console.log("Login response:", data);
 
   if (res.ok && data.result?.accessToken) {
     localStorage.setItem("token", data.result.accessToken);
@@ -63,9 +60,6 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
   alert("Logged out");
 });
 
-// ==========================
-// TASKS
-// ==========================
 document.getElementById("taskForm").addEventListener("submit", async e => {
   e.preventDefault();
   const body = {
@@ -123,9 +117,6 @@ async function deleteTask(id) {
   loadTasks();
 }
 
-// ==========================
-// INIT
-// ==========================
 if (token()) {
   loadTasks();
 }

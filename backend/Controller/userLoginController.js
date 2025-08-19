@@ -4,9 +4,6 @@ import bcrypt from "bcrypt";
 
 const TOKEN_KEY = process.env.JWT_KEY || "1234567890";
 
-// ==========================
-// LOGIN CONTROLLER
-// ==========================
 const validateCredentials = async (req, res) => {
   const { username, password } = req.body;
 
